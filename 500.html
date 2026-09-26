@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>500 — Помилка сервера · DimaWorld</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('dw_theme')||'dark')}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Rubik:wght@400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/errors.css">
+</head>
+<body class="err-body">
+  <canvas id="err-canvas" aria-hidden="true"></canvas>
+  <div class="err-vignette" aria-hidden="true"></div>
+  <div class="err-content">
+    <div class="err-code" style="color:var(--red);text-shadow:0 0 30px rgba(255,84,112,.5),4px 4px 0 rgba(0,0,0,.4)">500</div>
+    <h1 class="err-title">ЩОСЬ ЗЛАМАЛОСЬ</h1>
+    <p class="err-text">Машина світів дала збій. Наші інженери-редстоунери вже лагодять механізм — зазирни за кілька хвилин.</p>
+    <div class="err-actions">
+      <a href="index.html" class="btn btn--primary">ПОВЕРНУТИСЯ НА ГОЛОВНУ</a>
+      <a href="index.html#news" class="btn btn--ghost">📰 НОВИНИ</a>
+    </div>
+  </div>
+  <div class="err-footer">DIMAWORLD · DEMO ERROR PAGE</div>
+  <script src="js/errors.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Адмін-панель — DimaWorld (DEMO)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('dw_theme')||'dark')}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Rubik:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- Sidebar -->
+  <aside class="adm-side">
+    <a href="index.html" class="navbar__logo adm-logo">
+      <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="assets/favicon.svg#root"/></svg>
+      <span class="logo-word">DIMA<b>WORLD</b><small>ADMIN · DEMO</small></span>
+    </a>
+    <nav class="adm-nav">
+      <button class="adm-nav-btn active" data-view="dashboard">📊 Дашборд</button>
+      <button class="adm-nav-btn" data-view="players">👥 Гравці</button>
+      <button class="adm-nav-btn" data-view="reports">🚨 Скарги</button>
+      <button class="adm-nav-btn" data-view="news">📰 Новини</button>
+      <button class="adm-nav-btn" data-view="store">🛒 Магазин</button>
+      <button class="adm-nav-btn" data-view="orders">🧾 Замовлення</button>
+      <button class="adm-nav-btn" data-view="stats">📈 Статистика</button>
+      <button class="adm-nav-btn" data-view="servers">🖥 Сервери</button>
+      <button class="adm-nav-btn" data-view="settings">⚙️ Налаштування</button>
+    </nav>
+    <div class="adm-side__foot">
+      <span class="demo-chip">DEMO ПАНЕЛЬ</span>
+      <a class="btn btn--ghost btn--sm" href="index.html">← На сайт</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="adm-main">
+    <header class="adm-top">
+      <div>
+        <h1 class="adm-title" id="admTitle">Дашборд</h1>
+        <p class="adm-sub">Демонстраційні дані · реальна панель вимагає бекенд-автентифікації</p>
+      </div>
+      <div class="adm-top__right">
+        <span class="chip chip--green"><span class="dot dot--pulse"></span> Усі системи в нормі</span>
+        <button class="icon-btn" id="admTheme" aria-label="Тема">🌓</button>
+      </div>
+    </header>
+
+    <!-- Dashboard -->
+    <section class="adm-view active" id="view-dashboard">
+      <div class="adm-kpis">
+        <div class="adm-kpi glass"><div class="ak-top"><span>👥 Онлайн</span><span class="chip chip--green">LIVE</span></div><b id="kOnline">1 284</b><span class="ak-delta">▲ +3.2% за годину</span></div>
+        <div class="adm-kpi glass"><div class="ak-top"><span>🧠 CPU</span></div><b>38%</b><div class="ak-bar"><i style="width:38%;background:var(--green)"></i></div></div>
+        <div class="adm-kpi glass"><div class="ak-top"><span>💾 RAM</span></div><b>11.2 / 16 GB</b><div class="ak-bar"><i style="width:70%;background:var(--gold)"></i></div></div>
+        <div class="adm-kpi glass"><div class="ak-top"><span>📈 TPS</span></div><b style="color:var(--green)">20.0</b><span class="ak-delta">без лагів · 99.9% uptime</span></div>
+      </div>
+      <div class="adm-grid-2">
+        <div class="glass adm-card">
+          <h3>Гравці за 24 години</h3>
+          <canvas id="admPlayersChart" height="230"></canvas>
+        </div>
+        <div class="glass adm-card">
+          <h3>TPS за останню годину</h3>
+          <canvas id="admTpsChart" height="230"></canvas>
+        </div>
+      </div>
+      <div class="glass adm-card">
+        <h3>Останні події</h3>
+        <div id="admEvents"></div>
+      </div>
+    </section>
+
+    <!-- Players -->
+    <section class="adm-view" id="view-players">
+      <div class="adm-toolbar">
+        <div class="search-input"><input id="admPlayerSearch" placeholder="Пошук гравця…" autocomplete="off"></div>
+        <span class="chip" id="admPlayersCount"></span>
+      </div>
+      <div class="glass adm-table-wrap">
+        <table class="adm-table"><thead><tr><th>Гравець</th><th>Ранг</th><th>Level</th><th>K/D</th><th>Годин</th><th>Статус</th><th></th></tr></thead>
+        <tbody id="admPlayersBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section class="adm-view" id="view-reports">
+      <div class="glass adm-table-wrap">
+        <table class="adm-table"><thead><tr><th>#</th><th>Гравець</th><th>Тип</th><th>Дата</th><th>Статус</th><th>Дії</th></tr></thead>
+        <tbody id="admReportsBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- News -->
+    <section class="adm-view" id="view-news">
+      <div class="adm-toolbar"><button class="btn btn--primary btn--sm" id="admNewsAdd">＋ Створити новину</button></div>
+      <div class="glass adm-table-wrap">
+        <table class="adm-table"><thead><tr><th>Заголовок</th><th>Категорія</th><th>Дата</th><th>Перегляди</th><th>Дії</th></tr></thead>
+        <tbody id="admNewsBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- Store -->
+    <section class="adm-view" id="view-store">
+      <div class="adm-kpis">
+        <div class="adm-kpi glass"><div class="ak-top"><span>💰 Виторг за місяць</span></div><b>184 920 ₴</b><span class="ak-delta">▲ +12% до попереднього</span></div>
+        <div class="adm-kpi glass"><div class="ak-top"><span>🛒 Замовлень</span></div><b>1 247</b><span class="ak-delta">середній чек 148 ₴</span></div>
+        <div class="adm-kpi glass"><div class="ak-top"><span>⭐ Топ товар</span></div><b>Season Pass</b><span class="ak-delta">412 продажів</span></div>
+      </div>
+      <div class="glass adm-table-wrap">
+        <table class="adm-table"><thead><tr><th>Товар</th><th>Категорія</th><th>Ціна</th><th>Продажів</th><th>Статус</th></tr></thead>
+        <tbody id="admStoreBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- Orders -->
+    <section class="adm-view" id="view-orders">
+      <div class="glass adm-table-wrap">
+        <table class="adm-table"><thead><tr><th>№</th><th>Гравець</th><th>Товар</th><th>Сума</th><th>Дата</th><th>Статус</th></tr></thead>
+        <tbody id="admOrdersBody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="adm-view" id="view-stats">
+      <div class="adm-grid-2">
+        <div class="glass adm-card"><h3>Нові реєстрації (30 днів)</h3><canvas id="admRegChart" height="230"></canvas></div>
+        <div class="glass adm-card"><h3>Виторг за місяці (тис. ₴)</h3><canvas id="admRevChart" height="230"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Servers -->
+    <section class="adm-view" id="view-servers">
+      <div class="adm-servers" id="admServers"></div>
+    </section>
+
+    <!-- Settings -->
+    <section class="adm-view" id="view-settings">
+      <div class="glass adm-card" style="max-width:640px">
+        <h3>Налаштування сервера (DEMO)</h3>
+        <form class="form-grid" id="admSettingsForm">
+          <div class="form-field"><label>Назва сервера</label><input value="DimaWorld" type="text"></div>
+          <div class="form-field"><label>IP адреса</label><input value="play.dimaworld.com" type="text"></div>
+          <div class="form-field"><label>Максимум гравців</label><input value="3000" type="number"></div>
+          <div class="form-field"><label>Анти-чит чутливість</label>
+            <select><option>Стандартна</option><option>Висока</option><option>Максимальна</option></select>
+          </div>
+          <div class="form-field" style="display:flex;gap:12px;align-items:center"><input type="checkbox" id="setMaintenance" style="width:auto"> <label for="setMaintenance" style="margin:0">Режим технічних робіт</label></div>
+          <button class="btn btn--primary" type="submit">ЗБЕРЕГТИ (DEMO)</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/world.js" defer></script>
+  <script src="js/admin.js" defer></script>
+</body>
+</html>
